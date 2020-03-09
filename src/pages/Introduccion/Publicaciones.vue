@@ -8,15 +8,15 @@
             <form class="buscador" action="index.html" method="post">
               <label for="searchterm1"> Buscar: </label>
               <br />
-              <input type="text" size="46" maxlength="256" id="temaPublicidad" name="temaPublicidad" title="Buscar por tema de publicación" placeholder="Igrese una palabra clave">
+              <input type="text" size="46" maxlength="256" id="temaPublicidad" name="temaPublicidad" title="Buscar por tema de publicación" placeholder="Igrese una palabra clave" v-model="form.tema">
               <br />
               <label for="Participante">Participante:</label>
               <br />
-              <input type="text" title="Buscar por participtante en la publicación" placeholder="Ingrese un nombre" id="participantePublicidad" required>
+              <input type="text" title="Buscar por participtante en la publicación" placeholder="Ingrese un nombre" id="participantePublicidad" v-model="form.Participante" required>
               <br />
               <label for="Tipo_Publicidad" >Tip de Publicación</label>
               <!-- Se implementa un elemento de tipo select para escojer el tipo de publicación -->
-              <select class="" name="Tipo_Publicidad" title="Buscar por tipo de publicación" id="tipoPublicidad">
+              <select class="" name="Tipo_Publicidad" title="Buscar por tipo de publicación" id="tipoPublicidad" v-model="form.tipo">
                 <option value="afiche">Afiche</option>
                 <option value="folleto">Folleto</option>
                 <option value="separador">Separador</option>
@@ -26,20 +26,16 @@
               <!-- Etiqueta para el manejo de fechas por año -->
               <label for="FechaPublica">Fecha:</label>
               <br />
-              <input class="text" id="fechaPublicidad" title="Buscar por fehca de la publicación"  placeholder="Ingrese un año">
+              <input class="text" id="fechaPublicidad" v-model="form.fecha" title="Buscar por fehca de la publicación"  placeholder="Ingrese un año">
               <br />
           </form>
 
           <!-- Envío orden para búsqueda -->
-          <input type="submit" name="" value="Enviar" class="btn" onclick="creartablaPublicidad()">
+          <input type="submit" name="" value="Enviar" class="btn" @click="creartablaPublicidad()">
             <br />
             <br />
           <!-- Esquema de la tabla contenedora de la búsqueda para publicaciones -->
           <table>
-            <br />
-            <br />
-            <br />
-            <br />
             <thead>
               <th width="20">id</th>
               <th width="40">tema</th>
@@ -48,8 +44,16 @@
               <th width="30">fecha</th>
               <th width="150">link</th>
             </thead>
-            <tbody id="cuerpoPublicidad">
-            </tbody>
+            <tbody >
+                  <tr v-for="(item,index) in misPublicaciones" :key="index">
+                    <th scope="row">{{item.id}}</th>
+                    <th>{{item.tema}}</th>
+                    <th>{{item.tipo}}</th>
+                    <th>{{item.participantes}}</th>
+                    <th>{{item.fecha}}</th>
+                    <th>{{item.link}}</th>
+                  </tr>
+              </tbody>
           </table>
           </div>
         </div>
@@ -58,49 +62,30 @@
 
 <script>
 export default {
-/* methods:{
-    creartablaPublicidad(){
-
-    $("#cuerpoPublicidad tr").remove();
-
-    var temaPublicidad = document.getElementById("temaPublicidad").value;
-    var participantePublicidad = document.getElementById("participantePublicidad").value;
-    var tipoPublicidad = document.getElementById("tipoPublicidad").value;
-    var añoPublicidad = document.getElementById("fechaPublicidad").value;
-    $.ajax({
-        url     : "http://localhost:3000/publicidad/"+temaPublicidad+","+tipoPublicidad+","+participantePublicidad+","+añoPublicidad,
-        type    : "GET",
-        success : (function (data) {
-          if(document.getElementById(data)==null){
-                        alert("Datos no encontrados")
-                      }
-                      try {
-                            for(var i=0; i<data.length; i++){
-                            var tr = `<tr>
-                                <td>`+data[i].id+`</td>
-                                <td>`+data[i].tema+`</td>
-                                <td>`+data[i].tipo+`</td>
-                                <td>`+data[i].participantes+`</td>
-                                <td>`+data[i].fecha+`</td>
-                                <td>`+data[i].link+`</td>
-                            </tr>`;
-                            $("#cuerpoPublicidad").append(tr)
-                            }
-                            alert("Busqueda realizada con exito");
-                          }
-                          catch (e) {
-                            if (e instanceof ReferenceError) {
-                                // Handle error as necessary
-                                alert("No hay resultados");
-                            }
-
-
-                          }
-
-                  })
-    });
+data() {
+      return {
+          misPublicaciones:[],
+        form: {
+          tema: '',
+          tipo: '',
+          Participante: '',
+          fecha: ''
+        },
+        show: true
+      }
+    },
+  methods:{
+       creartablaPublicidad(){
+         this.axios.get("http://10.20.200.180:3000/publicidad/"+this.form.tema+","+this.form.tipo+","+this.form.Participante+","+this.form.fecha)
+        .then(res=>{
+            this.misPublicaciones=res.data;
+        })
+        .catch(e=>{
+            alert("Dato no encontrado");
+            alert(e.response);
+        }) 
+       }
 }
-} */
 }
 </script>
 

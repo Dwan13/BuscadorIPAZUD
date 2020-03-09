@@ -8,16 +8,16 @@
             <form class="buscador" action="index.html" method="post">
             <label for="Documento" >Tematica del documento:</label>
             <br />
-            <input type="text" name="Documento" title="Buscar por temática del documento" placeholder="Ingrese palabras clave" id="temaDocumento" required>
+            <input type="text" name="Documento" title="Buscar por temática del documento" placeholder="Ingrese palabras clave" id="temaDocumento" v-model="form.tema" required>
             <br />
             <label for="Autor" >Ingrese autor:</label>
             <br />
-            <input type="text" name="Autor" title="Buscar por autor del documento" placeholder="Ingrese un nombre" id="autorDocumento" required>
+            <input type="text" name="Autor" title="Buscar por autor del documento" placeholder="Ingrese un nombre" id="autorDocumento" v-model="form.autor"  required>
             <br />
             <label for="Tipo" >Tipo de documento:</label>
             <br />
             <!-- Se implementa un elemento de tipo select para escojer un tipo de documento -->
-            <select class="desplegar" name="Tipo" id="tipoDocumento" title="Buscar por tipo de documento" >
+            <select class="desplegar" name="Tipo" id="tipoDocumento" title="Buscar por tipo de documento" v-model="form.tipo" >
               <option value="libro">Libro</option>
               <option value="revista">Revista</option>
               <option value="articulo">Artículo</option>
@@ -30,7 +30,7 @@
             <label for="Area" >Área de estudio:</label>
             <br />
             <!-- Se implementa un elemento de tipo select para escojer entre diferentes areas de estudio -->
-            <select class="desplegar" name="Area" id="areaDocumento" title="Buscar por area temática del documento" >
+            <select class="desplegar" name="Area" id="areaDocumento" title="Buscar por area temática del documento" v-model="form.area" >
               <option value="democracia">Democracia y Ciudadanía </option>
               <option value="memoria">Memoria y Conflicto</option>
               <option value="territorio">Territorio y Desarraigo</option>
@@ -39,7 +39,7 @@
             <!-- Etiqueta para el manejo de fechas por año -->
             <label for="FechaDocumentos">Fecha:</label>
             <br />
-            <input class="text" id="fechaDocumento" title="Buscar por fecha del documento" placeholder="Ingrese un año">
+            <input class="text" id="fechaDocumento" title="Buscar por fecha del documento" placeholder="Ingrese un año" v-model="form.fecha" >
             <br />
             <br />
           </form>
@@ -49,10 +49,6 @@
             <br />
           <!-- Esquema de la tabla contenedora de la búsqueda para documentos -->
           <table>
-            <br />
-            <br />
-            <br />
-            <br />
             <thead>
               <th width="20">id</th>
               <th width="40">tema</th>
@@ -62,8 +58,17 @@
               <th width="30">fecha</th>
               <th width="150">link</th>
             </thead>
-            <tbody id="cuerpoDocumentos">
-            </tbody>
+             <tbody >
+                  <tr v-for="(item,index) in misDocumentos" :key="index">
+                    <th scope="row">{{item.id}}</th>
+                    <th>{{item.tema}}</th>
+                    <th>{{item.tipo}}</th>
+                    <th>{{item.area}}</th>
+                    <th>{{item.autor}}</th>
+                    <th>{{item.fecha}}</th>
+                    <th>{{item.link}}</th>
+                  </tr>
+              </tbody>
           </table>
           </div>
         </div>
@@ -72,40 +77,31 @@
 
 <script>
 export default {
-/* methods:{
-    creartablaDocumentos(){
-
-    $("#cuerpoDocumentos tr").remove();
-
-    var temaDocumento = document.getElementById("temaDocumento").value;
-    var autorDocumento = document.getElementById("autorDocumento").value;
-    var areaDocumento = document.getElementById("areaDocumento").value;
-    var tipoDocumento = document.getElementById("tipoDocumento").value;
-    var añoDocumento = document.getElementById("fechaDocumento").value;
-    $.ajax({
-        url     : "http://localhost:3000/documento/"+temaDocumento+","+tipoDocumento+","+areaDocumento+","+autorDocumento+","+añoDocumento,
-        type    : "GET",
-        success : (function (data) {
-          if(document.getElementById(data)==null){
-                        alert("Datos no encontrados")
-                      }
-                      alert("Busqueda realizada con exito");
-                        for(var i=0; i<data.length; i++){
-                        var tr = `<tr>
-                            <td>`+data[i].id+`</td>
-                            <td>`+data[i].tema+`</td>
-                            <td>`+data[i].tipo+`</td>
-                            <td>`+data[i].area+`</td>
-                            <td>`+data[i].autor+`</td>
-                            <td>`+data[i].fecha+`</td>
-                            <td>`+data[i].link+`</td>
-                        </tr>`;
-                        $("#cuerpoDocumentos").append(tr)
-                        }
-                  })
-    });
+  data() {
+      return {
+          misDocumentos:[],
+        form: {
+          tema: '',
+          tipo: '',
+          area: '',
+          autor: '',
+          fecha: ''
+        },
+        show: true
+      }
+    },
+  methods:{
+       creartablaDocumentos(){
+         this.axios.get("http://10.20.200.180:3000/documento/"+this.form.tema+","+this.form.tipo+","+this.form.area+","+this.form.autor+","+this.form.fecha)
+        .then(res=>{
+            this.misDocumentos=res.data;
+        })
+        .catch(e=>{
+            alert("Dato no encontrado");
+            alert(e.response);
+        }) 
+       }
 }
-} */
 }
 </script>
 

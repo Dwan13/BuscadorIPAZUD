@@ -8,6 +8,7 @@
           </div>
           <div class="parrafo">
             <p>© 2019 Instituto para la Pedagogia, la Paz y el Conflicto Urbano IPAZUD  | Universidad Distrital Francisco José de Caldas. NIT. 899.999.230.7</p>
+            <p>Prueba 2</p>
           </div>
         </div>
       </footer>
@@ -24,7 +25,7 @@ footer {
   background: #2F2F2F;
   padding: 20px 0;
   text-align: center;
-  margin-top: 11%;
+  margin-top: 13%;
   position: relative;
   bottom: 0;
 }
@@ -48,6 +49,6 @@ footer img:hover {
 
 footer p {
   color: #fff;
-  margin-top: -5px;
+  margin-top: 1%;
 }
 </style>

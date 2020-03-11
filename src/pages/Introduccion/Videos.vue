@@ -65,7 +65,7 @@ export default {
     },
   methods:{
        creartablaVideos(){
-         this.axios.get("http://10.20.200.180:3000/video/"+this.form.tema+","+this.form.autor+","+this.form.fecha)
+         this.axios.get("http://localhost:3000/video/"+this.form.tema+","+this.form.autor+","+this.form.fecha)
         .then(res=>{
             this.misVideos=res.data;
         })

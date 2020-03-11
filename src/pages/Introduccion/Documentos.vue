@@ -66,7 +66,7 @@
                     <th>{{item.area}}</th>
                     <th>{{item.autor}}</th>
                     <th>{{item.fecha}}</th>
-                    <th>{{item.link}}</th>
+                    <th><iframe :src="item.link" scrolling="auto"></iframe></th>
                   </tr>
               </tbody>
           </table>
@@ -92,7 +92,7 @@ export default {
     },
   methods:{
        creartablaDocumentos(){
-         this.axios.get("http://10.20.200.180:3000/documento/"+this.form.tema+","+this.form.tipo+","+this.form.area+","+this.form.autor+","+this.form.fecha)
+         this.axios.get("http://localhost:3000/documento/"+this.form.tema+","+this.form.tipo+","+this.form.area+","+this.form.autor+","+this.form.fecha)
         .then(res=>{
             this.misDocumentos=res.data;
         })

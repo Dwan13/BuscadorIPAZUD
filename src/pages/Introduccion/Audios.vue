@@ -71,7 +71,7 @@ export default {
     },
   methods:{
        creartablaAudios(){
-         this.axios.get("http://10.20.200.180:3000/audio/"+this.form.tema+","+this.form.autor+","+this.form.fecha)
+         this.axios.get("http://localhost:3000/audio/"+this.form.tema+","+this.form.autor+","+this.form.fecha)
         .then(res=>{
             this.misAudios=res.data;
         })

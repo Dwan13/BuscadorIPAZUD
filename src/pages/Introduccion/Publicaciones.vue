@@ -16,7 +16,7 @@
               <br />
               <label for="Tipo_Publicidad" >Tip de Publicación</label>
               <!-- Se implementa un elemento de tipo select para escojer el tipo de publicación -->
-              <select class="" name="Tipo_Publicidad" title="Buscar por tipo de publicación" id="tipoPublicidad" v-model="form.tipo">
+              <select class="desplegar" name="Tipo_Publicidad" title="Buscar por tipo de publicación" id="tipoPublicidad" v-model="form.tipo">
                 <option value="afiche">Afiche</option>
                 <option value="folleto">Folleto</option>
                 <option value="separador">Separador</option>
@@ -51,7 +51,7 @@
                     <th>{{item.tipo}}</th>
                     <th>{{item.participantes}}</th>
                     <th>{{item.fecha}}</th>
-                    <th>{{item.link}}</th>
+                    <th><iframe :src="item.link" scrolling="auto"></iframe></th>
                   </tr>
               </tbody>
           </table>
@@ -76,7 +76,7 @@ data() {
     },
   methods:{
        creartablaPublicidad(){
-         this.axios.get("http://10.20.200.180:3000/publicidad/"+this.form.tema+","+this.form.tipo+","+this.form.Participante+","+this.form.fecha)
+         this.axios.get("http://localhost:3000/publicidad/"+this.form.tema+","+this.form.tipo+","+this.form.Participante+","+this.form.fecha)
         .then(res=>{
             this.misPublicaciones=res.data;
         })

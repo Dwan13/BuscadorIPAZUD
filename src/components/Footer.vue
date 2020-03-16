@@ -8,7 +8,7 @@
           </div>
           <div class="parrafo">
             <p>© 2019 Instituto para la Pedagogia, la Paz y el Conflicto Urbano IPAZUD  | Universidad Distrital Francisco José de Caldas. NIT. 899.999.230.7</p>
-            <p>Prueba 2</p>
+            <p>Prueba 3</p>
           </div>
         </div>
       </footer>

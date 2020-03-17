@@ -5,11 +5,14 @@ import router from './js/router/index'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import store from './js/store/index'
+/* Componente menu */
 import Menu from "@/components/Menu.vue"
 Vue.component("menu-app", Menu);
 
+/* Componente Footer */
 import Footer from "@/components/Footer.vue"
 import vuetify from './plugins/vuetify';
+
 Vue.component("footer-app", Footer);
 
 Vue.use(VueAxios, axios)

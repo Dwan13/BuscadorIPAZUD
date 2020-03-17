@@ -76,8 +76,10 @@ data() {
     },
   methods:{
        creartablaPublicidad(){
+                  /* Petición a axios el método get */
          this.axios.get("http://localhost:3000/publicidad/"+this.form.tema+","+this.form.tipo+","+this.form.Participante+","+this.form.fecha)
         .then(res=>{
+                    /* Respuesta de la consulta */
             this.misPublicaciones=res.data;
         })
         .catch(e=>{

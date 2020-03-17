@@ -1,7 +1,9 @@
 <template>
   <v-content>
+    <!-- Se recurrió a vuetify para el responsive-designe del menú  -->
     <v-app-bar-nav-icon class="Responsive" @click="drawer=!drawer"></v-app-bar-nav-icon>
     <v-toolbar app color="#BB681A" class="BarraNavegacion">
+      <!-- cada v-toolbar-title es un apuntador del router-link de cada filtro de búsqueda -->
       <v-toolbar-title>
         <router-link to="./">
           <a class="ItemPrincipal">Buscador</a>
@@ -21,6 +23,7 @@
         <a class="Secundarios">Publicidad</a>
       </router-link>
     </v-toolbar>
+    <!-- Responsive para celulares -->
     <v-navigation-drawer app v-model="drawer" temporary color="#BB681A">
       <v-layout mt-4 ml-2 column align-center>
         <v-flex >
@@ -74,6 +77,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/* uso de media-query para anular o permitir el despliegue de un tipo de menu */
 @media (min-width: 600px) {
     .Responsive {
       display: none;

@@ -67,6 +67,7 @@ export default {
        creartablaVideos(){
          this.axios.get("http://localhost:3000/video/"+this.form.tema+","+this.form.autor+","+this.form.fecha)
         .then(res=>{
+                    /* Respuesta de la consulta */
             this.misVideos=res.data;
         })
         .catch(e=>{

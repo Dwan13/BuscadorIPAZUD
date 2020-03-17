@@ -92,8 +92,10 @@ export default {
     },
   methods:{
        creartablaDocumentos(){
+                  /* Petición a axios el método get */
          this.axios.get("http://localhost:3000/documento/"+this.form.tema+","+this.form.tipo+","+this.form.area+","+this.form.autor+","+this.form.fecha)
         .then(res=>{
+                    /* Respuesta de la consulta */
             this.misDocumentos=res.data;
         })
         .catch(e=>{

@@ -2,10 +2,12 @@
    <footer>
         <div class="contenedor">
           <div class="redes">
+            <!-- Enlace a redes del IPAZUD -->
             <a href="https://www.facebook.com/ipazud/" target="_blank"><img class="GirarIcon" src='../assets/facebook.png' alt="imagen de facebook"></a>
             <a href="https://twitter.com/InstitutoPazUD" target="_blank"><img class="GirarIcon" src='../assets/twitter.png'  alt="imagen de twitter"></a>
             <a href="https://www.instagram.com/institutodepaz_ud/ " target="_blank"><img class="GirarIcon" src='../assets/instagram.png'  alt="imagen de instagram"></a>
           </div>
+          <!-- Sección de contactos -->
           <div class="parrafo">
             <p>© 2020 Instituto para la Pedagogia, la Paz y el Conflicto Urbano IPAZUD  | Universidad Distrital Francisco José de Caldas. NIT. 899.999.230.7</p>
             <p>Código Postal: 11021-110231588</p>
@@ -24,6 +26,7 @@ export default {
 </script>
 
 <style >
+/* Estilos para el footer */
 footer {
   background: #2F2F2F;
   padding: 20px 0;

@@ -41,6 +41,7 @@
                 <th width="150">link</th>
               </thead>
               <tbody >
+                <!-- Siclo for para llmar cada celda con su item correspondiente -->
                   <tr v-for="(item,index) in misAudios" :key="index">
                     <th scope="row">{{item.id}}</th>
                     <th>{{item.tema}}</th>
@@ -61,6 +62,7 @@ export default {
   data() {
       return {
           misAudios:[],
+          /* Se utilizan estas variables globales para solicitar el contenido a buscar a através de axios */
         form: {
           tema: '',
           autor: '',
@@ -71,8 +73,10 @@ export default {
     },
   methods:{
        creartablaAudios(){
+         /* Petición a axios el método get */
          this.axios.get("https://cors-anywhere.herokuapp.com/http://10.20.200.180:3000/audio/"+this.form.tema+","+this.form.autor+","+this.form.fecha)
         .then(res=>{
+          /* Respuesta de la consulta */
             this.misAudios=res.data;
         })
         .catch(e=>{

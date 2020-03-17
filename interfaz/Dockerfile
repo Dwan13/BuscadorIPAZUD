@@ -3,4 +3,5 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 EXPOSE 8000
-CMD [ "npm", "run", "start" ]
+CMD [ "npm", "i" ]
+CMD [ "npm", "run", "serve" ]

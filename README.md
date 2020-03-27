@@ -11,8 +11,8 @@ Este conjunto de saberes interdisciplinares, requieren adelantar una revisión j
 
 ## METODOLOGÍA
 
-![](https://drive.google.com/file/d/1_8AqdYMxhYh_pHpdHY3GctOX5PYX0B55/view)
+![Metodologia](https://drive.google.com/file/d/1_8AqdYMxhYh_pHpdHY3GctOX5PYX0B55/view)
 
 ## ARQUITECTURA
 
-![](https://drive.google.com/open?id=13VbMYWKkA1re8pn2AsUWY6YKFjGxMAb6)
+![Arquitectura](https://drive.google.com/open?id=13VbMYWKkA1re8pn2AsUWY6YKFjGxMAb6)

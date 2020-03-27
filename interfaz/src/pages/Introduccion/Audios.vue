@@ -54,7 +54,7 @@ mientras que la búsqueda rápida trae todo el contenido de la tabla en la Base 
             hide-details
           ></v-text-field>
         </v-card-title>
-        <v-data-table :headers="headers" :items="misAudios" :search="search">
+        <v-data-table v-if="showSearch" :headers="headers" :items="misAudios" :search="search">
           <template v-slot:item.link="{ item }">
             <iframe
               width="350"
@@ -148,6 +148,10 @@ export default {
         .then(res => {
           this.misAudios = res.data;
           this.showSearch = true;
+          if( this.misAudios==null){
+            this.showModal = true;
+            this.misAudios=[];
+          }
         })
         .catch(e => {
           this.showModal = true;

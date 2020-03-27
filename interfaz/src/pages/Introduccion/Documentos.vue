@@ -172,6 +172,10 @@ export default {
         .then(res => {
           this.misDocumentos = res.data;
           this.showSearch = true;
+           if( this.misDocumentos==null){
+            this.showModal = true;
+            this.misDocumentos=[];
+          }
         })
         .catch(e => {
           this.showModal = true;

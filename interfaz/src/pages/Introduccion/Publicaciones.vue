@@ -154,6 +154,10 @@ export default {
         .then(res => {
           this.misPublicaciones = res.data;
           this.showSearch = true;
+          if( this.misPublicaciones==null){
+            this.showModal = true;
+            this.misPublicaciones=[];
+          }
         })
         .catch(e => {
           this.showModal = true;

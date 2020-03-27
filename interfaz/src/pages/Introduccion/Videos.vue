@@ -148,6 +148,10 @@ export default {
         .then(res => {
           this.misVideos = res.data;
           this.showSearch = true;
+          if( this.misVideos==null){
+            this.showModal = true;
+            this.misVideos=[];
+          }
         })
         .catch(e => {
           this.showModal = true;

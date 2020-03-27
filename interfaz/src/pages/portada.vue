@@ -1,5 +1,6 @@
 <template>
 <v-layout>
+  <!-- Pantalla de inicio -->
      <v-flex class="Presentacion">
         <div class="contenedor">
       <div class="contenedor-titulo">
@@ -11,17 +12,13 @@
         </div>
       </div>
     </div>
+    <!-- Llamamos el componente Footer -->
     <footer-app class="animated fadeInUp dura-1"></footer-app>
      </v-flex>
      </v-layout>
 </template>
 
-<script>
-export default {
-
-}
-</script>
-
 <style lang="scss" scoped>
+/* Importamos clase de estilo sass Principal.scss */
 @import "@/sass/Principal.scss";
 </style>

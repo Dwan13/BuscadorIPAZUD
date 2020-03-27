@@ -1,4 +1,5 @@
 <template id="modal-template">
+<!-- Esta clase llamada modal permite informar errores con mayor estética por pantalla -->
   <transition name="modal">
     <div class="modal-mask">
       <div class="modal-wrapper">
@@ -37,6 +38,7 @@ export default {
 </script>
 
 <style>
+/* Estilos de la clase MODAL */
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -55,7 +57,7 @@ export default {
 }
 
 .modal-container {
-  width: 200px;
+  width: 300px;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;

@@ -1,3 +1,6 @@
+/* ESTILOS GLOBALES
+Esta clases permite definir tamaño de letra, colores, tipo de fuente... */
+
 @import 'animate';
 body {
     background: #fff;
@@ -48,34 +51,6 @@ h3 {
     color: white;
 }
 
-
-/* Estilos de elementos input */
-
-
-/* input {
-    display: table-footer-group;
-    color: black;
-    text-align: center;
-    float: left;
-}
-
-input[type="submit"] {
-    float: right;
-    display: table-footer-group;
-    color: white;
-    text-align: center;
-}
-
-input[type="text"],
-input[type="email"] {
-    width: 100%;
-    margin-bottom: 15px;
-    padding: 18px 0;
-    border: 0;
-    border-bottom: 1px solid #2C8378;
-    font-size: 17px;
-} */
-
 btn {
     cursor: pointer;
     background: #2C8378;
@@ -99,13 +74,7 @@ p {
 }
 
 
-/* form {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    width: 77%;
-    margin: auto;
-} */
+/* Responsive design */
 
 @media (max-width: 600px) {
     body {

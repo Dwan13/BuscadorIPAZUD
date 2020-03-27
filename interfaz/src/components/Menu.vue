@@ -1,5 +1,9 @@
 <template>
   <div>
+    <!-- Uso de vuetify nav y toolbar para desarrollar el menu responsive
+    1. drawer es una variable lógica que eprmite desplegar o no el menu en un entorno responsive
+    2. La barra de navegación primaria es la que contiene la clase BarraNavegacion.
+     -->
     <v-app-bar-nav-icon class="Responsive" @click="drawer=!drawer"></v-app-bar-nav-icon>
     <v-toolbar app color="#BB681A" class="BarraNavegacion">
       <v-toolbar-title>
@@ -75,6 +79,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/* Estilos de MENU
+Display: none permite la interacción entre el responsive con drawer
+ */
 @media (min-width: 600px) {
     .Responsive {
       display: none;

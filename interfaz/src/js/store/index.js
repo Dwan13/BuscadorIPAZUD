@@ -4,32 +4,11 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-    imagen:"",
-    numeroPiel:"",
-    numeroRopa:"",
-    numeroPelo:"",
-    numeroOjos:""
-  },
-  mutations: {
-    avatar(state, valor){
-      state.imagen=valor
+    /* Para los siguientes pasantes se les recomienda declarar variables globales como el casod e los botones de selección de tipo de búsqueda */
+    state: {},
+    mutations: {
+
     },
-    numeroPiel(state, number){
-      state.numeroPiel=number
-    },
-    numeroRopa(state, nRopa){
-      state.numeroRopa=nRopa
-    },
-    numeroPelo(state, nPelo){
-      state.numeroPelo=nPelo
-    },
-    numeroOjos(state, nOjos){
-      state.numeroOjos=nOjos
-    }
-  },
-  actions: {
-  },
-  modules: {
-  }
+    actions: {},
+    modules: {}
 })

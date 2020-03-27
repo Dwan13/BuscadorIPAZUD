@@ -1,84 +1,167 @@
 <template>
-  <v-flex>
-        <menu-app></menu-app>
-        <div class="contenedor">
-          <h3>Videos</h3>
-          <div class="contenido">
-            <!-- Se definen etiquetas de aceurdo al critério de búsqueda y se solicita ingresar cada dato según corresponda -->
-            <form class="buscador" action="index.html" method="post">
-              <label for="TemaVideos">Tema:</label>
-              <br />
-              <input type="text" title="Buscar por tema en Videos" placeholder="Buscar" id="TemaVideos" v-model="form.tema" required>
-              <br />
-              <label for="ParticipanteVideos">Participante:</label>
-              <br />
-              <input type="text" title="Buscar por participante en Videos" placeholder="Ingrese un nombre" id="ParticipanteVideos" v-model="form.autor" required>
-              <br />
-              <label for="FechaVideos">Fecha:</label>
-              <br />
-              <!-- Etiqueta para el manejo de fechas por año -->
+  <v-container class="animated fadeInUp dura-1">
+    <H3>VIDEOS</H3>
+    <v-layout v-if="VerBotones" wrap mt-5 xs12 justify-center>
+      <div class="Seleccion">
+        <v-btn
+          title="Búsqueda por Filtros"
+          class="mt-5"
+          color="success"
+          @click="elegirFiltros"
+        >Búsqueda Por Filtros</v-btn>
+        <v-btn
+          color="success"
+          class="mt-5"
+          @click="elegirBusquedaRapida"
+          title="Búsqueda Rápida"
+        >Búsqueda Rápida</v-btn>
+      </div>
+    </v-layout>
+    <modal-app v-if="showModal" @close="showModal=!showModal">
+      <h3 slot="header">Video no encontrado</h3>
+    </modal-app>
+    <v-layout v-if="VerFiltros" wrap class="animated fadeIn dura-1">
+      <v-flex xs12>
+        <v-form ref="form" v-model="valid" lazy-validation>
+          <v-text-field v-model="form.tema" :rules="temaRules" label="Tema" required></v-text-field>
 
-              <input class="text" id="FechaVideos" title="Buscar por fecha en Videos" placeholder="Ingrese un año" v-model="form.fecha">
+          <v-text-field v-model="form.autor" :rules="autorRules" label="Participantes" required></v-text-field>
 
-              <br />
-            </form>
-            <!-- Envío orden para búsqueda -->
-              <input type="submit" name="" value="Enviar" class="btn" id="botonvideos" @click="creartablaVideos()">
-            <!-- Esquema de la tabla contenedora de la búsqueda para videos -->
-            <br />
-            <br />
-           <table>
-                <thead>
-                  <th width="20">id</th>
-                  <th width="40">tema</th>
-                  <th width="50">autor</th>
-                  <th width="30">fecha</th>
-                  <th width="150">link</th>
-                </thead>
-                <tbody >
-                  <tr v-for="(item,index) in misVideos" :key="index">
-                    <th scope="row">{{item.id}}</th>
-                    <th>{{item.tema}}</th>
-                    <th>{{item.autor}}</th>
-                    <th>{{item.fecha}}</th>
-                    <th><iframe width="200" height="185" :src="item.link" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></th>
-                  </tr>
-              </tbody>
-              </table>
-          </div>
-        </div>
+          <v-text-field v-model="form.fecha" :rules="fechaRules" label="Fecha" required></v-text-field>
+
+          <btn class="mr-4" @click="creartablaVideos">Enviar</btn>
+
+          <btn class="mr-4" @click="reset">Reestablecer Búsqueda</btn>
+        </v-form>
+      </v-flex>
+      <v-flex mt-4>
+        <v-card-title v-if="showSearch">
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-card-title>
+        <v-data-table :headers="headers" :items="misVideos" :search="search">
+          <template v-slot:item.link="{ item }">
+            <iframe
+              width="550"
+              height="450"
+              scrolling="no"
+              frameborder="no"
+              allow="autoplay"
+              :src="item.link"
+            ></iframe>
+          </template>
+        </v-data-table>
+      </v-flex>
+    </v-layout>
+    <v-flex v-if="Fast" mt-4 class="animated fadeIn dura-1">
+      <v-card-title>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table :headers="headers" :items="misVideos" :search="search">
+        <template v-slot:item.link="{ item }">
+          <iframe
+            width="550"
+            height="450"
+            scrolling="no"
+            frameborder="no"
+            allow="autoplay"
+            :src="item.link"
+          ></iframe>
+        </template>
+      </v-data-table>
     </v-flex>
+  </v-container>
 </template>
 
 <script>
 export default {
   data() {
-      return {
-          misVideos:[],
-        form: {
-          tema: '',
-          autor: '',
-          fecha: ''
+    return {
+      VerBotones: true,
+      Fast: false,
+      VerFiltros: false,
+      showSearch: false,
+      headers: [
+        {
+          text: "Id",
+          align: "start",
+          sortable: false,
+          value: "id"
         },
-        show: true
-      }
-    },
-  methods:{
-       creartablaVideos(){
-         this.axios.get("http://localhost:3000/video/"+this.form.tema+","+this.form.autor+","+this.form.fecha)
-        .then(res=>{
-                    /* Respuesta de la consulta */
-            this.misVideos=res.data;
+        { text: "Tema", value: "tema" },
+        { text: "Participantes", value: "autor" },
+        { text: "Fecha", value: "fecha" },
+        { text: "Link", value: "link" }
+      ],
+      search: "",
+      valid: true,
+      misVideos: [],
+      showModal: false,
+      temaRules: [v => !!v || "Tema es requerido"],
+      autorRules: [v => !!v || "Autor es requerido"],
+      fechaRules: [v => !!v || "Fecha es requerida"],
+      form: {
+        tema: "",
+        autor: "",
+        fecha: ""
+      },
+      show: true
+    };
+  },
+  methods: {
+    creartablaVideos() {
+      this.axios
+        .get(
+          "http://localhost:3000/video/" +
+            this.form.tema +
+            "," +
+            this.form.autor +
+            "," +
+            this.form.fecha
+        )
+        .then(res => {
+          this.misVideos = res.data;
+          this.showSearch = true;
         })
-        .catch(e=>{
-            alert("Dato no encontrado");
-            alert(e.response);
-        }) 
-       }
-}
-}
+        .catch(e => {
+          this.showModal = true;
+          console(e.response);
+        });
+    },
+    reset() {
+      this.$refs.form.reset();
+    },
+    elegirFiltros() {
+      this.VerBotones = false;
+      this.VerFiltros = true;
+    },
+    elegirBusquedaRapida() {
+      this.VerBotones = false;
+      this.Fast = true;
+      this.axios
+        .get("http://localhost:3000/videos")
+        .then(res => {
+          this.misVideos = res.data;
+        })
+        .catch(e => {
+          this.showModal = true;
+          console(e.response);
+        });
+    }
+  }
+};
 </script>
 
 <style>
-
 </style>

@@ -1,12 +1,10 @@
 <template>
-  <div id="app">
 <v-app>
+      <menu-app></menu-app>
       <v-content>
-        <v-layout class="fill-viewport-height">
           <router-view/>
-        </v-layout>
       </v-content>
-    </v-app>  </div>
+</v-app>
 </template>
 
 <style lang="scss">

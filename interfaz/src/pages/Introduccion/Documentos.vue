@@ -1,119 +1,199 @@
 <template>
-  <v-flex>
-        <menu-app></menu-app>
-        <div class="contenedor">
-          <h3>Documentos</h3>
-          <div class="contenido">
-            <!-- Se definen etiquetas de aceurdo al critério de búsqueda y se solicita ingresar cada dato según corresponda -->
-            <form class="buscador" action="index.html" method="post">
-            <label for="Documento" >Tematica del documento:</label>
-            <br />
-            <input type="text" name="Documento" title="Buscar por temática del documento" placeholder="Ingrese palabras clave" id="temaDocumento" v-model="form.tema" required>
-            <br />
-            <label for="Autor" >Ingrese autor:</label>
-            <br />
-            <input type="text" name="Autor" title="Buscar por autor del documento" placeholder="Ingrese un nombre" id="autorDocumento" v-model="form.autor"  required>
-            <br />
-            <label for="Tipo" >Tipo de documento:</label>
-            <br />
-            <!-- Se implementa un elemento de tipo select para escojer un tipo de documento -->
-            <select class="desplegar" name="Tipo" id="tipoDocumento" title="Buscar por tipo de documento" v-model="form.tipo" >
-              <option value="libro">Libro</option>
-              <option value="revista">Revista</option>
-              <option value="articulo">Artículo</option>
-              <option value="tesis">Tesis</option>
-              <option value="informe">Informe</option>
-              <option value="entrevista">Entrevista</option>
-              <option value="registro">Registro</option>
-            </select>
-            <br />
-            <label for="Area" >Área de estudio:</label>
-            <br />
-            <!-- Se implementa un elemento de tipo select para escojer entre diferentes areas de estudio -->
-            <select class="desplegar" name="Area" id="areaDocumento" title="Buscar por area temática del documento" v-model="form.area" >
-              <option value="democracia">Democracia y Ciudadanía </option>
-              <option value="memoria">Memoria y Conflicto</option>
-              <option value="territorio">Territorio y Desarraigo</option>
-            </select>
-            <br />
-            <!-- Etiqueta para el manejo de fechas por año -->
-            <label for="FechaDocumentos">Fecha:</label>
-            <br />
-            <input class="text" id="fechaDocumento" title="Buscar por fecha del documento" placeholder="Ingrese un año" v-model="form.fecha" >
-            <br />
-            <br />
-          </form>
-          <!-- Envío orden para búsqueda -->
-          <input type="submit" name="" value="Enviar" class="btn" @click="creartablaDocumentos()">
-            <br />
-            <br />
-          <!-- Esquema de la tabla contenedora de la búsqueda para documentos -->
-          <table>
-            <thead>
-              <th width="20">id</th>
-              <th width="40">tema</th>
-              <th width="30">tipo</th>
-              <th width="30">area</th>
-              <th width="50">autor</th>
-              <th width="30">fecha</th>
-              <th width="150">link</th>
-            </thead>
-             <tbody >
-                  <tr v-for="(item,index) in misDocumentos" :key="index">
-                    <th scope="row">{{item.id}}</th>
-                    <th>{{item.tema}}</th>
-                    <th>{{item.tipo}}</th>
-                    <th>{{item.area}}</th>
-                    <th>{{item.autor}}</th>
-                    <th>{{item.fecha}}</th>
-                    <th><iframe :src="item.link" scrolling="auto"></iframe></th>
-                  </tr>
-              </tbody>
-          </table>
-          </div>
-        </div>
+  <v-container class="animated fadeInUp dura-1">
+    <h3>DOCUMENTOS</h3>
+    <v-layout v-if="VerBotones" wrap mt-5 xs12 justify-center>
+      <div class="Seleccion">
+        <v-btn
+          title="Búsqueda por Filtros"
+          class="mt-5"
+          color="success"
+          @click="elegirFiltros"
+        >Búsqueda Por Filtros</v-btn>
+        <v-btn
+          color="success"
+          class="mt-5"
+          @click="elegirBusquedaRapida"
+          title="Búsqueda Rápida"
+        >Búsqueda Rápida</v-btn>
+      </div>
+    </v-layout>
+    <modal-app v-if="showModal" @close="showModal=!showModal">
+      <h3 slot="header">Documento no encontrado</h3>
+    </modal-app>
+    <v-layout v-if="VerFiltros" wrap class="animated fadeIn dura-1">
+      <v-flex xs12>
+        <v-form ref="form" v-model="valid" lazy-validation>
+          <v-text-field v-model="form.tema" :rules="temaRules" label="Tema" required></v-text-field>
+
+          <v-text-field v-model="form.autor" :rules="autorRules" label="Autor" required></v-text-field>
+          <v-flex xs6 md3>
+            <v-select
+              v-model="form.tipo"
+              :items="form.select"
+              :rules="[v => !!v || 'Item es requerido']"
+              label="Tipo de Documento"
+              required
+            ></v-select>
+            <v-select
+              v-model="form.area"
+              :items="form.areas"
+              :rules="[v => !!v || 'Item es requerido']"
+              label="Area"
+              required
+            ></v-select>
+          </v-flex>
+
+          <v-text-field v-model="form.fecha" :rules="fechaRules" label="Fecha" required></v-text-field>
+
+          <btn :disabled="!valid" class="mr-4" @click="creartablaDocumentos">Enviar</btn>
+
+          <btn class="mr-4" @click="reset">Reestablecer Búsqueda</btn>
+        </v-form>
+      </v-flex>
+      <v-flex mt-4>
+        <v-card-title v-if="showSearch">
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-card-title>
+        <v-data-table :headers="headers" :items="misDocumentos" :search="search">
+          <template v-slot:item.link="{ item }">
+            <iframe :src="item.link" scrolling="auto" width="550" height="450"></iframe>
+          </template>
+        </v-data-table>
+      </v-flex>
+    </v-layout>
+    <v-flex v-if="Fast" mt-4 class="animated fadeIn dura-1">
+      <v-card-title>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table :headers="headers" :items="misDocumentos" :search="search">
+        <template v-slot:item.link="{ item }">
+          <iframe :src="item.link" scrolling="auto" width="550" height="450"></iframe>
+        </template>
+      </v-data-table>
     </v-flex>
+  </v-container>
 </template>
 
 <script>
 export default {
   data() {
-      return {
-          misDocumentos:[],
-        form: {
-          tema: '',
-          tipo: '',
-          area: '',
-          autor: '',
-          fecha: ''
+    return {
+      VerBotones: true,
+      Fast: false,
+      VerFiltros: false,
+      showSearch: false,
+      headers: [
+        {
+          text: "Id",
+          align: "start",
+          sortable: false,
+          value: "id"
         },
-        show: true
-      }
-    },
-  methods:{
-       creartablaDocumentos(){
-                  /* Petición a axios el método get */
-         this.axios.get("http://localhost:3000/documento/"+this.form.tema+","+this.form.tipo+","+this.form.area+","+this.form.autor+","+this.form.fecha)
-        .then(res=>{
-                    /* Respuesta de la consulta */
-            this.misDocumentos=res.data;
+        { text: "Tema", value: "tema" },
+        { text: "Tipo", value: "tipo" },
+        { text: "Area", value: "area" },
+        { text: "Autor", value: "autor" },
+        { text: "Fecha", value: "fecha" },
+        { text: "Link", value: "link" }
+      ],
+      search: "",
+      valid: true,
+      showModal: false,
+      misDocumentos: [],
+      temaRules: [v => !!v || "Tema es requerido"],
+      autorRules: [v => !!v || "Autor es requerido"],
+      fechaRules: [v => !!v || "Fecha es requerida"],
+      form: {
+        tema: "",
+        tipo: "",
+        select: [
+          "Libro",
+          "Revista",
+          "Artículo",
+          "Tesis",
+          "Informe",
+          "Entrevista",
+          "Registro"
+        ],
+        area: "",
+        areas: [
+          "Democracia y Ciudadanía",
+          "Memoria y Conflicto",
+          "Territorio y Desarraigo"
+        ],
+        autor: "",
+        fecha: ""
+      },
+      show: true
+    };
+  },
+  methods: {
+    creartablaDocumentos() {
+      this.axios
+        .get(
+          "http://localhost:3000/documento/" +
+            this.form.tema +
+            "," +
+            this.form.tipo +
+            "," +
+            this.form.area +
+            "," +
+            this.form.autor +
+            "," +
+            this.form.fecha
+        )
+        .then(res => {
+          this.misDocumentos = res.data;
+          this.showSearch = true;
         })
-        .catch(e=>{
-            alert("Dato no encontrado");
-            alert(e.response);
-        }) 
-       }
-}
-}
+        .catch(e => {
+          this.showModal = true;
+          console(e.response);
+        });
+    },
+    reset() {
+      this.$refs.form.reset();
+    },
+    elegirFiltros() {
+      this.VerBotones = false;
+      this.VerFiltros = true;
+    },
+    elegirBusquedaRapida() {
+      this.VerBotones = false;
+      this.Fast = true;
+      this.axios
+        .get("http://localhost:3000/documentos")
+        .then(res => {
+          this.misDocumentos = res.data;
+        })
+        .catch(e => {
+          this.showModal = true;
+          console(e.response);
+        });
+    }
+  }
+};
 </script>
 
 <style>
-#Documentos{
+#Documentos {
   padding: 90px 0;
 }
- #Documentos h3{
-   text-align:  center;
-   font-size: 45px;
-   font-weight: normal;
- }
+#Documentos h3 {
+  text-align: center;
+  font-size: 45px;
+  font-weight: normal;
+}
 </style>

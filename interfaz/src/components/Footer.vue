@@ -1,21 +1,19 @@
 <template>
    <footer>
-        <div class="contenedor">
-          <div class="redes">
-            <!-- Enlace a redes del IPAZUD -->
-            <a href="https://www.facebook.com/ipazud/" target="_blank"><img class="GirarIcon" src='../assets/facebook.png' alt="imagen de facebook"></a>
-            <a href="https://twitter.com/InstitutoPazUD" target="_blank"><img class="GirarIcon" src='../assets/twitter.png'  alt="imagen de twitter"></a>
-            <a href="https://www.instagram.com/institutodepaz_ud/ " target="_blank"><img class="GirarIcon" src='../assets/instagram.png'  alt="imagen de instagram"></a>
-          </div>
-          <!-- Sección de contactos -->
-          <div class="parrafo">
+        <v-layout class="contenedor" wrapp>
+          <v-flex class="redes">
+            <a title="Facebook" href="https://www.facebook.com/ipazud/" target="_blank"><img class="GirarIcon" src='../assets/facebook.png' alt="imagen de facebook"></a>
+            <a title="Twitter" href="https://twitter.com/InstitutoPazUD" target="_blank"><img class="GirarIcon" src='../assets/twitter.png'  alt="imagen de twitter"></a>
+            <a title="Instagram" href="https://www.instagram.com/institutodepaz_ud/ " target="_blank"><img class="GirarIcon" src='../assets/instagram.png'  alt="imagen de instagram"></a>
+          </v-flex>
+          <v-flex class="parrafo">
             <p>© 2020 Instituto para la Pedagogia, la Paz y el Conflicto Urbano IPAZUD  | Universidad Distrital Francisco José de Caldas. NIT. 899.999.230.7</p>
             <p>Código Postal: 11021-110231588</p>
-            <a  id="DatosContacto" target="_blank" href="https://www.google.com.co/maps/place/Cra.+7+%2340b-53,+Bogot%C3%A1/@4.6280856,-74.0674698,17z/data=!3m1!4b1!4m5!3m4!1s0x8e3f9a287591013f:0x5cce5fbab6b77b9b!8m2!3d4.6280856!4d-74.0652811?hl=es"><i class="fa fa-map-marker" aria-hidden="true"></i><img img src='../assets/mapa.png' alt="imagen de GoogleMaps">Carrera 7 No. 40B - 53 <br>Bogotá D.C. - República de Colombia</a>
+            <a   title="Ubicación" id="DatosContacto" target="_blank" href="https://www.google.com.co/maps/place/Cra.+7+%2340b-53,+Bogot%C3%A1/@4.6280856,-74.0674698,17z/data=!3m1!4b1!4m5!3m4!1s0x8e3f9a287591013f:0x5cce5fbab6b77b9b!8m2!3d4.6280856!4d-74.0652811?hl=es"><i class="fa fa-map-marker" aria-hidden="true"></i><img img src='../assets/mapa.png' alt="imagen de GoogleMaps">Carrera 7 No. 40B - 53 <br>Bogotá D.C. - República de Colombia</a>
             <br>
-            <a id="DatosContacto" href="https://www.udistrital.edu.co/directorio" title="Directorio institucional"><i class="fa fa-phone" aria-hidden="true"></i>Directorio institucional</a>
-          </div>
-        </div>
+            <a  id="DatosContacto" href="https://www.udistrital.edu.co/directorio" title="Directorio institucional"><i class="fa fa-phone" aria-hidden="true"></i>Directorio institucional</a>
+          </v-flex>
+        </v-layout>
       </footer>
 </template>
 
@@ -26,15 +24,16 @@ export default {
 </script>
 
 <style >
-/* Estilos para el footer */
 footer {
-  background: #2F2F2F;
-  padding: 20px 0;
-  text-align: center;
-  margin-top: 13%;
-  position: relative;
+  position: absolute;
   bottom: 0;
+  justify-content: center;
+  background: #2F2F2F;
+  padding: 1% 25%;
+  text-align: center;
+  bottom: 0; 
 }
+
 
 footer .contenedor {
   display: flex;
@@ -62,4 +61,12 @@ footer p {
 #DatosContacto{
   color: rgb(238, 207, 29);
 }
+@media (max-width: 600px) {
+    footer {
+      padding: 1% 5%;
+}
+footer .GirarIcon{
+  margin: 0 15px;
+}}
+
 </style>

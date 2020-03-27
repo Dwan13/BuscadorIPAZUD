@@ -1,8 +1,8 @@
 .Presentacion {
     position: absolute;
-    background: linear-gradient(rgba(32, 236, 175, 0.2), rgba(230, 149, 28, 0.274)), url("../assets/LogoIPAZUD.jpg") left no-repeat;
+    background: linear-gradient(rgba(32, 236, 175, 0.438), rgba(230, 149, 28, 0.384)), url("../assets/LogoIPAZUD.jpg") left no-repeat;
     background-position: center;
-    background-size: 100% 200%;
+    background-size: cover;
     background-repeat: no-repeat;
     height: 100%;
     width: 100%;
@@ -21,17 +21,18 @@
 .contenedor-titulo {
     display: flex;
     justify-content: center;
-    margin: 20vh 0;
+    position: relative;
+    margin-top: 10%;
 }
 
 .contenedor-titulo h1 {
-    font-size: 70px;
+    font-size: 50px;
     color: rgb(61, 49, 49);
     margin-bottom: 0;
 }
 
 .contenedor-titulo h2 {
-    font-size: 30px;
+    font-size: 20px;
     color: rgb(61, 49, 49);
     text-align: center;
     margin-bottom: 40;
@@ -54,6 +55,22 @@
 
 h3 {
     text-align: center;
-    font-size: 45px;
+    font-size: 35px;
     font-weight: normal;
+}
+
+@media (max-width: 600px) {
+    .contenedor-titulo {
+        margin-top: 60%;
+    }
+    .contenedor-titulo h1 {
+        font-size: 30px;
+    }
+    .contenedor-titulo h2 {
+        font-size: 20px;
+    }
+    .contenedor-titulo a {
+        width: 130px;
+        font-size: 10px;
+    }
 }

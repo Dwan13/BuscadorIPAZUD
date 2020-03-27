@@ -328,6 +328,9 @@ func main(){
 	
 	
 	router.HandleFunc("/videos", GetVideosEndpoint).Methods("GET")
+	router.HandleFunc("/audios", GetAudioEndpoint).Methods("GET")
+	router.HandleFunc("/documentos", GetDocumentosEndpoint).Methods("GET")
+	router.HandleFunc("/publicaciones", GetPublicidadEndpoint).Methods("GET")
 	router.HandleFunc("/video/{tema},{autor},{año}", GetVideoEndpoint).Methods("GET")
 	router.HandleFunc("/audio/{tema},{participantes},{año}", GetAudioEndpoint).Methods("GET")
 	router.HandleFunc("/publicidad/{tema},{tipo},{participantes},{año}", GetPublicidadEndpoint).Methods("GET")

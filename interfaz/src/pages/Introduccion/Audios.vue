@@ -1,98 +1,172 @@
 <template>
-    <v-flex id="Audios">
-        <menu-app></menu-app>
-        <div class="contenedor">
-          <h3>Audios</h3>
-          <div class="contenido">
-            <!-- Se definen etiquetas de aceurdo al critério de búsqueda y se solicita ingresar cada dato según corresponda -->
-            <form class="buscador" action="index.html" method="post">
-              <label for="TemaAudios">Tema:</label>
-              <br />
-              <input type="text" title="Buscar por tema en audio" placeholder="Ingrese un tema" id="TemaAudios" v-model="form.tema" required>
-              <br />
-              <label for="ParticipanteAudios">Participante:</label>
-              <br />
-              <input type="text" title="Buscar por participante en audio" placeholder="Ingrese un nombre" id="ParticipanteAudios" v-model="form.autor" required>
-              <br />
-              <!-- Etiqueta para el manejo de fechas por año -->
+  <v-container class="animated fadeInUp dura-1">
+    <H3>AUDIOS</H3>
+    <v-layout v-if="VerBotones" wrap mt-5 xs12 justify-center>
+      <div class="Seleccion">
+        <v-btn
+          title="Búsqueda por Filtros"
+          class="mt-5"
+          color="success"
+          @click="elegirFiltros"
+        >Búsqueda Por Filtros</v-btn>
+        <v-btn
+          color="success"
+          class="mt-5"
+          @click="elegirBusquedaRapida"
+          title="Búsqueda Rápida"
+        >Búsqueda Rápida</v-btn>
+      </div>
+    </v-layout>
+    <modal-app v-if="showModal" @close="showModal=!showModal">
+      <h3 slot="header">Audio no encontrado</h3>
+    </modal-app>
+    <v-layout v-if="VerFiltros" class="animated fadeIn dura-1" wrap>
+      <v-flex xs12>
+        <v-form ref="form" v-model="valid" lazy-validation>
+          <v-text-field v-model="form.tema" :rules="temaRules" label="Tema" required></v-text-field>
 
-              <label for="FechaAudios">Fecha:</label>
-              <br />
-              <input class="text" id="FechaAudios" title="Buscar por fecha en audio" placeholder="Ingrese un año" v-model="form.fecha" required>
+          <v-text-field v-model="form.autor" :rules="autorRules" label="Participantes" required></v-text-field>
 
-              <br />
-              <br />
+          <v-text-field v-model="form.fecha" :rules="fechaRules" label="Fecha" required></v-text-field>
 
-            </form>
-            <br />
-            <br />
-            <br />
-            <!-- Envío orden para búsqueda -->
-            <input type="submit" name="" value="Enviar" class="btn" @click="creartablaAudios()">
-            <br />
-            <br />  
-            <!-- Esquema de la tabla contenedora de la búsqueda para audios -->
-            <table>
-              <thead>
-                <th width="20">id</th>
-                <th width="40">tema</th>
-                <th width="50">participantes</th>
-                <th width="30">fecha</th>
-                <th width="150">link</th>
-              </thead>
-              <tbody >
-                <!-- Siclo for para llmar cada celda con su item correspondiente -->
-                  <tr v-for="(item,index) in misAudios" :key="index">
-                    <th scope="row">{{item.id}}</th>
-                    <th>{{item.tema}}</th>
-                    <th>{{item.participantes}}</th>
-                    <th>{{item.fecha}}</th>
-                    <th><iframe width="150" height="150" scrolling="no" frameborder="no" allow="autoplay" :src="item.link"></iframe></th>
-                  </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+          <btn :disabled="!valid" class="mr-4" @click="creartablaAudios">Enviar</btn>
 
+          <btn class="mr-4" @click="reset">Reestablecer Búsqueda</btn>
+        </v-form>
+      </v-flex>
+      <v-flex mt-4>
+        <v-card-title v-if="showSearch">
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-card-title>
+        <v-data-table :headers="headers" :items="misAudios" :search="search">
+          <template v-slot:item.link="{ item }">
+            <iframe
+              width="350"
+              height="250"
+              scrolling="no"
+              frameborder="no"
+              allow="autoplay"
+              :src="item.link"
+            ></iframe>
+          </template>
+        </v-data-table>
+      </v-flex>
+    </v-layout>
+    <v-flex v-if="Fast" mt-4 class="animated fadeIn dura-1">
+      <v-card-title>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table :headers="headers" :items="misAudios" :search="search">
+        <template v-slot:item.link="{ item }">
+          <iframe
+            width="350"
+            height="250"
+            scrolling="no"
+            frameborder="no"
+            allow="autoplay"
+            :src="item.link"
+          ></iframe>
+        </template>
+      </v-data-table>
     </v-flex>
+  </v-container>
 </template>
 
 <script>
 export default {
   data() {
-      return {
-          misAudios:[],
-          /* Se utilizan estas variables globales para solicitar el contenido a buscar a através de axios */
-        form: {
-          tema: '',
-          autor: '',
-          fecha: ''
+    return {
+      VerBotones: true,
+      Fast: false,
+      VerFiltros: false,
+      showSearch: false,
+      headers: [
+        {
+          text: "Id",
+          align: "start",
+          sortable: false,
+          value: "id"
         },
-        show: true
-      }
-    },
-  methods:{
-       creartablaAudios(){
-         /* Petición a axios el método get */
-         this.axios.get("https://cors-anywhere.herokuapp.com/http://10.20.200.180:3000/audio/"+this.form.tema+","+this.form.autor+","+this.form.fecha)
-        .then(res=>{
-          /* Respuesta de la consulta */
-            this.misAudios=res.data;
+        { text: "Tema", value: "tema" },
+        { text: "Participantes", value: "participantes" },
+        { text: "Fecha", value: "fecha" },
+        { text: "Link", value: "link" }
+      ],
+      search: "",
+      valid: true,
+      showModal: false,
+      misAudios: [],
+      temaRules: [v => !!v || "Tema es requerido"],
+      autorRules: [v => !!v || "Autor es requerido"],
+      fechaRules: [v => !!v || "Fecha es requerida"],
+      form: {
+        tema: "",
+        autor: "",
+        fecha: ""
+      },
+      show: true
+    };
+  },
+  methods: {
+    creartablaAudios() {
+      this.axios
+        .get(
+          "http://localhost:3000/audio/" +
+            this.form.tema +
+            "," +
+            this.form.autor +
+            "," +
+            this.form.fecha
+        )
+        .then(res => {
+          this.misAudios = res.data;
+          this.showSearch = true;
         })
-        .catch(e=>{
-            alert("Dato no encontrado"+" "+e.response);
-        }) 
-       }
-}
-}
+        .catch(e => {
+          this.showModal = true;
+          console(e.response);
+        });
+    },
+    reset() {
+      this.$refs.form.reset();
+    },
+    elegirFiltros() {
+      this.VerBotones = false;
+      this.VerFiltros = true;
+    },
+    elegirBusquedaRapida() {
+      this.VerBotones = false;
+      this.Fast = true;
+      this.axios
+        .get("http://localhost:3000/audios")
+        .then(res => {
+          this.misAudios = res.data;
+        })
+        .catch(e => {
+          this.showModal = true;
+          console(e.response);
+        });
+    }
+  }
+};
 </script>
 
 <style>
 
-#Audios .contenido{
+/* #Audios .contenido{
   display: inline;
   justify-content: flex-start;
-}
-
-
+} */
 </style>
